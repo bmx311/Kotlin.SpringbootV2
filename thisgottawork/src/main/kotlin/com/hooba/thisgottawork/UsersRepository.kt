@@ -1,10 +1,10 @@
 package com.hooba.thisgottawork
 
-import jakarta.inject.Named
 import jakarta.persistence.*
 import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
-@Named
+@Repository
 interface UsersRepository : JpaRepository<Order, Long>
 
 @Entity
@@ -13,9 +13,11 @@ data class Order(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null,
+    @Column(name = "name")
     val name: String,
+    @Column(name = "restaurant")
     val restaurant: String,
-    val items: MutableList<String>
+   // val items: MutableList<String>
 ){
-    constructor() : this(null, "","", mutableListOf())
+    constructor() : this(null, "","")
 }

@@ -16,7 +16,7 @@ class HelloWorldController(
 
     @PostMapping("/order")
     fun saveMyOrder( @RequestBody request: MyOrderRequest) =
-        usersRepository.save(Order(name = request.name, restaurant = request.restaurant, items = request.items))
+        usersRepository.save(Order(name = request.name, restaurant = request.restaurant,))
 
 }
 
