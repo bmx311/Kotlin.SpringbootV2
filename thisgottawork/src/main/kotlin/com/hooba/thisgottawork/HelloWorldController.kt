@@ -1,5 +1,7 @@
 package com.hooba.thisgottawork
 
+import com.hooba.thisgottawork.users.UserEntity
+import com.hooba.thisgottawork.users.UserRepository
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -7,8 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class HelloWorldController(
-    val usersRepository: UsersRepository,
-    val orderRepository: OrdersRepository
+    val usersRepository: UserRepository,
 ){
 
     @GetMapping("/home")
@@ -17,20 +18,22 @@ class HelloWorldController(
 
     @PostMapping("/add-name")
     fun sayMyName( @RequestBody request: SayMyNameRequest)
-    = usersRepository.save(UserEntity(id =request.id,name = request.name, age = request.age))
+    = usersRepository.save(
+        UserEntity(
+        id =request.id,
+        name = request.name,
+        age = request.age,
+        username = request.username,
+        password = request.password
+    )
+    )
 
-    @PostMapping("/add-order")
-    fun sayMyOrder( @RequestBody request: SayMyOrderRequest)
-    = orderRepository.save(OrderEntity(id =request.id,name = request.name, age = request.age))
 }
 
 data class SayMyNameRequest(
     val id: Long?,
     val name: String,
-    val age: Int
-)
-data class SayMyOrderRequest(
-    val id: Long?,
-    val name: String,
-    val age: Int
+    val age: Int,
+    val username: String,
+    val password: String
 )

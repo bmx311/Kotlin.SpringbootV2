@@ -1,23 +1,26 @@
 package com.hooba.thisgottawork.users
 
+import org.springframework.http.HttpStatus
+import org.springframework.http.ResponseEntity
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Service
 
-import com.hooba.thisgottawork.UsersRepository
-import jakarta.inject.Named
-
-@Named
+@Service
 class UsersService(
-    private val usersRepository: UsersRepository,
-) {
+    private val userRepository: UserRepository,
+//    private val passwordEncoder: PasswordEncoder
+)
+ {
+    fun registerUser(request: CreateUserRequest): ResponseEntity<Any> {
+        if (userRepository.existsByUsername(request.username)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(mapOf("error" to "username ${request.username} already exists"))
+        }
 
-    fun listUsers(): List<User> = usersRepository.findAll().map {
-        User(
-            name = it.name,
-            age = it.age
-        )
+//        val hashedPassword = passwordEncoder.encode(request.password)
+//        val newUser = UserEntity(name =request.name, age =request.age, username = request.username, password = hashedPassword)
+//        userRepository.save(newUser)
+
+        return ResponseEntity.ok().build()
     }
 }
-
-data class User(
-    val name: String,
-    val age : Int
-)
